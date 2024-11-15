@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hello World</title>
     <style>
-       
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
         @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Hindi&display=swap');
 
@@ -25,7 +24,6 @@
             min-height: 100vh;
             background: linear-gradient(135deg, #5372F0, #84C6F4);
         }
-
 
         .container {
             max-width: 500px;
@@ -83,20 +81,6 @@
             padding: 10px;
         }
 
-        .controls select::-ms-expand {
-            display: none;
-        }
-
-        .controls select::after {
-            content: '▼';
-            position: absolute;
-            right: 10px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #5372F0;
-            font-size: 18px;
-        }
-
         .container button {
             padding: 10px;
             outline: none;
@@ -124,7 +108,6 @@
             from {
                 width: 0;
             }
-
             to {
                 width: 100%;
             }
@@ -144,7 +127,6 @@
                 font-size: 14px;
             }
         }
-    </style>
     </style>
 </head>
 <body>
@@ -176,6 +158,14 @@
                 resultElement.style.fontFamily = "'Poppins', sans-serif";
             }
 
+            // Fallback static translations for offline usage
+            const translations = {
+                english: "Hello World",
+                french: "Bonjour le monde",
+                hindi: "नमस्ते दुनिया"
+            };
+
+            // Check if the server is online
             fetch(`http://localhost:5000/hello?language=${language}`)
                 .then(response => {
                     if (!response.ok) {
@@ -185,19 +175,19 @@
                 })
                 .then(data => {
                     resultElement.innerText = data.message || data.error_message;
-
-                    resultElement.style.animation = 'none';
-                    resultElement.offsetHeight; // Trigger reflow
-                    resultElement.style.animation = 'typing 2s steps(40) 1s forwards';
+                    triggerTypingEffect(resultElement);
                 })
                 .catch(error => {
                     console.error('Error fetching data:', error);
-                    resultElement.innerText = 'Language not found or unsupported';
-
-                    resultElement.style.animation = 'none';
-                    resultElement.offsetHeight; // Trigger reflow
-                    resultElement.style.animation = 'typing 2s steps(40) 1s forwards';
+                    resultElement.innerText = translations[language] || "Hello World";
+                    triggerTypingEffect(resultElement);
                 });
+        }
+
+        function triggerTypingEffect(element) {
+            element.style.animation = 'none';
+            element.offsetHeight; // Trigger reflow
+            element.style.animation = 'typing 2s steps(40) 1s forwards';
         }
     </script>
 </body>
