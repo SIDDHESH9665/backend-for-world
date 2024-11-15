@@ -1,0 +1,11 @@
+{
+  "english": {
+    "message": "Hello World"
+  },
+  "french": {
+    "message": "Bonjour le monde"
+  },
+  "hindi": {
+    "message": "नमस्ते संसार"
+  }
+}

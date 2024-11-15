@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hello World</title>
+    <style>
+       
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Hindi&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 10px;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #5372F0, #84C6F4);
+        }
+
+
+        .container {
+            max-width: 500px;
+            width: 100%;
+            padding: 20px;
+            background: #fff;
+            border-radius: 7px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 350px;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 36px;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .controls {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 20px;
+        }
+
+        .controls label {
+            margin-bottom: 8px;
+            font-size: 16px;
+            color: #333;
+        }
+
+        .controls select {
+            font-size: 16px;
+            padding: 10px 15px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            background-color: #f8f8f8;
+            color: #333;
+            appearance: none;
+            outline: none;
+            transition: border-color 0.2s ease;
+        }
+
+        .controls select:hover {
+            border-color: #5372F0;
+        }
+
+        .controls select:focus {
+            border-color: #5372F0;
+        }
+
+        .controls select option {
+            padding: 10px;
+        }
+
+        .controls select::-ms-expand {
+            display: none;
+        }
+
+        .controls select::after {
+            content: '▼';
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #5372F0;
+            font-size: 18px;
+        }
+
+        .container button {
+            padding: 10px;
+            outline: none;
+            border: none;
+            color: #fff;
+            cursor: pointer;
+            font-size: 14px;
+            border-radius: 5px;
+            background: #5372F0;
+            align-self: flex-end;
+            margin-top: 10px;
+            width: 100%;
+        }
+
+        .text-display p {
+            font-size: 24px;
+            color: #333;
+            white-space: nowrap;
+            overflow: hidden;
+            width: 0;
+            animation: typing 2s steps(40) 1s forwards;
+        }
+
+        @keyframes typing {
+            from {
+                width: 0;
+            }
+
+            to {
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 660px) {
+            .container {
+                padding: 20px;
+            }
+
+            .controls select {
+                font-size: 14px;
+            }
+
+            .container button {
+                padding: 12px;
+                font-size: 14px;
+            }
+        }
+    </style>
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Say Hello Worldwide</h1>
+        <div class="controls">
+            <label for="language">Choose a language:</label>
+            <select id="language">
+                <option value="english">English</option>
+                <option value="french">French</option>
+                <option value="hindi">Hindi</option>
+            </select>
+        </div>
+        <div class="text-display">
+            <p id="result">Hello World</p>
+        </div>
+        <button onclick="getHelloMessage()">Translate</button>
+    </div>
+
+    <script>
+        function getHelloMessage() {
+            const language = document.getElementById('language').value;
+            const resultElement = document.getElementById('result');
+
+            // Change font family for Hindi
+            if (language === 'hindi') {
+                resultElement.style.fontFamily = "'Noto Sans Hindi', sans-serif";
+            } else {
+                resultElement.style.fontFamily = "'Poppins', sans-serif";
+            }
+
+            fetch(`http://localhost:5000/hello?language=${language}`)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Language not found or unsupported');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    resultElement.innerText = data.message || data.error_message;
+
+                    resultElement.style.animation = 'none';
+                    resultElement.offsetHeight; // Trigger reflow
+                    resultElement.style.animation = 'typing 2s steps(40) 1s forwards';
+                })
+                .catch(error => {
+                    console.error('Error fetching data:', error);
+                    resultElement.innerText = 'Language not found or unsupported';
+
+                    resultElement.style.animation = 'none';
+                    resultElement.offsetHeight; // Trigger reflow
+                    resultElement.style.animation = 'typing 2s steps(40) 1s forwards';
+                });
+        }
+    </script>
+</body>
+</html>
