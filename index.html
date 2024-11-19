@@ -188,7 +188,9 @@
         function triggerTypingEffect(element) {
             element.style.animation = 'none';
             element.offsetHeight; 
-            element.style.animation = 'typing 2s steps(40) 1s forwards';
+            // element.style.animation = 'typing 2s steps(40) 1s forwards';
+                element.style.animation = 'typing 1.5s steps(40) 1s forwards, fadeIn 0.8s ease-in-out forwards, scaleUp 0.3s ease-in-out forwards';
+
         }
     </script>
     
