@@ -135,9 +135,11 @@
         <div class="controls">
             <label for="language">Choose a language:</label>
             <select id="language">
-                <option value="english">English</option>
-                <option value="french">French</option>
-                <option value="hindi">Hindi</option>
+               <option value="english">English</option>
+          <option value="french">French</option>
+          <option value="hindi">Hindi</option>
+          <option value="spanish">Spanish</option> 
+          <option value="german">German</option>
             </select>
         </div>
         <div class="text-display">
@@ -159,11 +161,13 @@
             }
     
             
-            const translations = {
-                english: "Hello World",
-                french: "Bonjour le monde",
-                hindi: "नमस्ते संसार"
-            };
+         const translations = {
+      english: "Hello World",
+      french: "Bonjour le monde",
+      hindi: "नमस्ते संसार",
+      spanish: "Hola Mundo", 
+      german: "Hallo Welt",
+    };
     
            
             fetch(`http://localhost:5000/hello?language=${language}`)
